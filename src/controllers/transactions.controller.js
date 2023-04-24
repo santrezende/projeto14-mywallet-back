@@ -4,7 +4,7 @@ export async function postTransaction(req, res) {
     const type = req.params.tipo
     const { description, value } = req.body
     const { authorization } = req.headers
-    const token = authorization?.replace('Bearer ', '')
+    const token = authorization?.replace("Bearer ", "")
 
     try {
         const session = await db.collection("sessions").findOne({ token })
@@ -34,7 +34,7 @@ export async function postTransaction(req, res) {
 
 export async function getTransactions(req, res) {
     const { authorization } = req.headers
-    const token = authorization?.replace('Bearer ', '')
+    const token = authorization?.replace("Bearer ", "")
 
     try {
 

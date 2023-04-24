@@ -46,3 +46,24 @@ export async function singIn(req, res) {
     res.status(422).send(err.message);
   }
 }
+
+export async function logOut(req, res) {
+  const { authorization } = req.headers
+  const token = authorization?.replace("Bearer ", "")
+
+  try {
+
+    if (!token) return res.sendStatus(401);
+
+    const session = await db.collection("sessions").findOne({ token })
+
+    if (!session) return res.sendStatus(401);
+
+    await db.collection("sessions").deleteOne({ token })
+
+    return res.status(200).send("Usuário deslogado com sucesso")
+
+  } catch (err) {
+    console.log(err.message)
+  }
+}
