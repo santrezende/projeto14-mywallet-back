@@ -57,7 +57,7 @@ export async function logOut(req, res) {
 
     const session = await db.collection("sessions").findOne({ token })
 
-    if (!session) return res.sendStatus(401);
+    if (!session) return res.sendStatus(401)
 
     await db.collection("sessions").deleteOne({ token })
 
