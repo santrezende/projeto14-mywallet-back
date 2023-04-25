@@ -37,7 +37,7 @@ export async function singIn(req, res) {
 
       const token = uuid();
       await db.collection("sessions").insertOne({ userId: user._id, token })
-      return res.status(200).send(token);
+      return res.status(200).send({ token, name: user.name });
 
     } else {
       return res.status(401).send("E-mail ou senha incorretos")
