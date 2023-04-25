@@ -64,15 +64,16 @@ export async function deleteTransaction(req, res) {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
   const { id } = req.body;
+  const objectId = new ObjectId(id)
 
-  console.log( id )
+  console.log(objectId)
+
+  if (!token) return res.sendStatus(401);
 
   try {
-    if (!token) return res.sendStatus(401);
-
-    const objectId = ObjectId(id)
-
     const result = await db.collection("transactions").deleteOne({ _id: objectId });
+
+    console.log(result, "oi")
 
     if (result.deletedCount === 1) {
       res.status(204).send();
