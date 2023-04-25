@@ -21,7 +21,8 @@ export async function postTransaction(req, res) {
             description,
             value,
             type,
-            userId: session.userId
+            userId: session.userId,
+            date: new Date()
         }
 
         await db.collection("transactions").insertOne(newTransaction)

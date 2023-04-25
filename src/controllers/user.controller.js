@@ -34,10 +34,15 @@ export async function singIn(req, res) {
     }
 
     if (user && bcrypt.compareSync(password, user.password)) {
+      const existingSession = await db.collection("sessions").findOne({ _id: user._id })
 
-      const token = uuid();
-      await db.collection("sessions").insertOne({ userId: user._id, token })
-      return res.status(200).send({ token, name: user.name });
+      if (existingSession) {
+        return res.status(400).send("Usuário já logado")
+      } else {
+        const token = uuid();
+        await db.collection("sessions").insertOne({ userId: user._id, token })
+        return res.status(200).send({ token, name: user.name })
+      }
 
     } else {
       return res.status(401).send("E-mail ou senha incorretos")
