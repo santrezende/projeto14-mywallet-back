@@ -17,12 +17,17 @@ export async function postTransaction(req, res) {
             return res.status(422).send("O valor deve ser um número positivo!")
         }
 
+        const date = new Date()
+        const day = date.getDate().toString().padStart(2, '0')
+        const month = (date.getMonth() + 1).toString().padStart(2, '0')
+        const formattedDate = `${day}/${month}`
+
         const newTransaction = {
             description,
             value,
             type,
             userId: session.userId,
-            date: new Date()
+            date: formattedDate
         }
 
         await db.collection("transactions").insertOne(newTransaction)
