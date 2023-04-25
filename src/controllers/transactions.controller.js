@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { db } from "../database/database.connection.js";
 
 export async function postTransaction(req, res) {
@@ -64,10 +65,14 @@ export async function deleteTransaction(req, res) {
   const token = authorization?.replace("Bearer ", "");
   const { id } = req.body;
 
+  console.log( id )
+
   try {
     if (!token) return res.sendStatus(401);
 
-    const result = await db.collection("transactions").deleteOne({ _id: id });
+    const objectId = ObjectId(id)
+
+    const result = await db.collection("transactions").deleteOne({ _id: objectId });
 
     if (result.deletedCount === 1) {
       res.status(204).send();
